@@ -1,0 +1,64 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    background-color: #AEAEAE;
+}
+
+.login-form {
+    max-width: 400px;
+    height: 400px;
+    background-color: #fff;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    overflow: auto;
+    padding: 1em 2em;
+    /* border-bottom: 2px solid #ccc; */
+    display: table;
+}
+
+div.content {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.fa {
+    margin: 5px 2px;
+}
+
+.fa:hover {
+    opacity: 0.7;
+}
+
+.btn-facebook {
+    background-color: #5272B3;
+    color: white;
+}
+
+.btn-twitter {
+    background-color: #0597E6;
+    color: white;
+}
+
+.btn-google {
+    color: white;
+    background-color: #E45E52;
+}
+
+.btn-linkedin {
+    color: white;
+    background-color: #007BB6;
+} 
+
+.btn-github {
+    color: white;
+    background-color: #24292E;
+}
+
+.btn:hover {
+    color: white;
+}
