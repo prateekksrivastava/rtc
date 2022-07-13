@@ -1,64 +1,60 @@
 body {
-    margin: 0px;
-    padding: 0px;
-    height: 100%;
-    background-color: #AEAEAE;
+    height: 100vh;
+    background-image: linear-gradient(to bottom right, #cb4154, #00AEAE);
 }
 
-.login-form {
-    max-width: 400px;
-    height: 400px;
-    background-color: #fff;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    overflow: auto;
-    padding: 1em 2em;
-    /* border-bottom: 2px solid #ccc; */
-    display: table;
+.container {
+    max-width: 800px; 
+    border: 2px solid white;
+    border-radius: 50px;
+    height: 60vh;
+    padding: 45px;
+    overflow-y: auto;
 }
 
-div.content {
-    display: table-cell;
-    vertical-align: middle;
+.message  {
+    background-color: rgb(190, 158, 158);
+    color: aliceblue;
+    width: fit-content;
+    padding: 12px;
+    margin: 14px;
+    border: 2px solid black;
+    border-radius: 50px;
 }
 
-.fa {
-    margin: 5px 2px;
+.left {
+    float: left;
+    clear:both;
 }
 
-.fa:hover {
-    opacity: 0.7;
+.right {
+    float: right;
+    clear:both;
 }
 
-.btn-facebook {
-    background-color: #5272B3;
-    color: white;
+#messageInput {
+    width: 80%;
+    border: 2px solid black;
+    border-radius: 6px;
+    height: 34px;
+    font-size: 22px;
 }
 
-.btn-twitter {
-    background-color: #0597E6;
-    color: white;
-}
-
-.btn-google {
-    color: white;
-    background-color: #E45E52;
-}
-
-.btn-linkedin {
-    color: white;
-    background-color: #007BB6;
-} 
-
-.btn-github {
-    color: white;
-    background-color: #24292E;
+.btn {
+    width: 100px;
+    cursor: pointer;
+    border: 1px solid aliceblue;
+    color: aliceblue;
+    border-radius: 6px;
+    padding: 5px;
 }
 
 .btn:hover {
-    color: white;
+    color: aliceblue !important;
+}
+
+.online-user {
+    border: 2px solid white;
+    max-width: 300px;
+    height: 60vh;
 }

@@ -14,9 +14,9 @@ passport_1.default.deserializeUser(function (user, done) {
     done(null, user);
 });
 passport_1.default.use(new passport_google_oauth2_1.Strategy({
-    clientID: '692346196735-al14js8o2luiafqbrgovm3nka806qhtc.apps.googleusercontent.com',
-    clientSecret: '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',
-    callbackURL: 'http://localhost:4000/auth/callback',
+    clientID: process.env.clientID,
+    clientSecret: process.env.clientSecret,
+    callbackURL: process.env.callbackURL,
     passReqToCallback: true,
 }, function (request, accessToken, refreshToken, profile, done) {
     return done(null, profile);

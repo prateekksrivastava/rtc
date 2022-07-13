@@ -12,11 +12,20 @@ require('./passport');
 const app = (0, express_1.default)();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+app.use(express_1.default.static("public"));
+const users = {};
 io.on('connection', function (socket) {
     console.log('Client connected');
-    socket.on('chat', function (data) {
-        //Send message to everyone
-        io.sockets.emit('chat-message', data);
+    socket.on('new-user-joined', name => {
+        users[socket.id] = name;
+        socket.broadcast.emit('user-joined', name);
+    });
+    socket.on('chat', message => {
+        socket.broadcast.emit('receive', { message: message, name: users[socket.id] });
+    });
+    socket.on('disconnect', message => {
+        socket.broadcast.emit('left', users[socket.id]);
+        delete users[socket.id];
     });
 });
 dotenv_1.default.config();
@@ -30,14 +39,14 @@ app.use(passport_1.default.session());
 app.set("view engine", "ejs");
 // database connectivity
 const connection = mysql_1.default.createConnection({
-    host: '127.0.0.1',
-    user: 'root',
-    password: '',
-    database: 'chat-app',
+    host: process.env.HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DATABASE,
 });
 connection.connect((err) => {
     if (err) {
-        console.log("Error", err);
+        console.log("Error ", err);
         throw err;
     }
     console.log("Application connected with MySQL");

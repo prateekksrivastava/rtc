@@ -4,108 +4,81 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room</title>
+
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-    <title>Chat Room</title>
-    <style>
-        body {
-          margin: 0 auto;
-          max-width: 800px;
-          padding: 0 20px;
-          background-color: black;
-          color: white;
-        }
-        
-        .wrapper {
-            border: 1px solid rgb(114, 52, 52);
-        }
 
-        .message {
-          background-color: #f1f1f1;
-          border-radius: 5px;
-          padding: 10px;
-          width: 450px;
-          margin: 10px 0;
-          background-image: linear-gradient(to bottom right, #cb4154, #00AEAE);
-        }
-        
-        .message::after {
-          content: "";
-          clear: both;
-          display: table;
-        }
-        
-        .message img {
-          float: left;
-          max-width: 60px;
-          width: 100%;
-          cursor: grab;
-          margin-right: 20px;
-          border-radius: 50%;
-        }
-        
-        .message img.right {
-          float: right;
-          margin-left: 20px;
-          margin-right:0;
-        }
-
-        .right {
-            float: right;
-            clear: both;
-        }
-
-        .left {
-            float: left;
-            clear: both;
-        }
-
-        .time-right {
-            float: right;
-        }
-
-        .btn-block {
-            border: 1px solid white;
-            color: white;
-        }
-    </style>
+    <link href="/app.css" rel="stylesheet">
 </head>
-
-<script src="/socket.io/socket.io.js"></script>
-
 <body>
-    <div class="wrapper">
-        <a href="/logout" style="float: right;" type="button" class="btn btn-block">Logout</a>
+    <!-- <div style="padding: 40px;" class="online-user">
+        <aside>
+             <h2>Online Users</h2>
 
-        <h2>Real time chat application </h2>
-        <div id="message-container">
-            <!-- <div class="message right"><img src="#" title="<%= user.displayName%>" alt="Avatar" style="width:100%;"><p>Hey</p><span class="time-right">ewd</span></div>
+            <ul id="onlineUser">
+            </ul>
+         </aside>
+    </div> -->
 
-            <div class="message left"><img src="#" title="<%= user.displayName%>" alt="Avatar" style="width:100%;"><p>How are you?</p><span class="time-right">sdf</span></div> -->
-        </div>
-        
-        <input type="text" id="message" class="form-control" placeholder="Write a message.." style="width: 665px; display: inline-block;">
-        <button type="button" class="btn btn-block" name="button" onclick="sendMessage()">Send</button>
+    <div class="container">
+        <a href="/logout" style="float: right;" type="button" class="btn">Logout</a>
+
+        <h2 style="color: aliceblue;">Real time chat application </h2>
+
+        <div class="message-container"></div> 
+
+        <form style="width: 100%; display: flex;" id="input-msg-form">
+            <input type="text" id="messageInput" name="messageInput" class="form-control" placeholder="Write a message.." style="width: 665px; display: inline-block;">
+
+            <button type="submit" id="myBtn" class="btn" >Send</button> 
+        </form>
+
     </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+
     <script>
         const socket = io();
-        var user = 'Prateek';
+        const form = document.getElementById('input-msg-form');
+        const messageInput = document.getElementById('messageInput')
+        const messageContainer = document.querySelector(".message-container")
 
-        function sendMessage() {
-            var msg = document.getElementById('message').value;
-            
-            if (msg){
-                socket.emit('chat', {message: msg, user: user});
-            }
+        // Function which will append event info to the container
+        const append = (message, position) => {
+            const msgDiv = document.createElement('div');
+            msgDiv.innerText = message;
+            msgDiv.classList.add('message');
+            msgDiv.classList.add(position);
+            messageContainer.append(msgDiv);
         }
-        var current = new Date();
 
-        socket.on('chat-message', function(data){
-            if (user){
-                document.getElementById('message-container').innerHTML +='<div class="message"><img src="<%= user.picture %>" title="<%= user.displayName%>" alt="Avatar" style="width:100%;"><p>'+ data.message +'</p><span class="time-right">'+current.toLocaleTimeString()+'s</span></div>';
+        // Upon login take the name of user
+        const name = '<%= user.displayName %>'
+        socket.emit('new-user-joined', name);
+        
+        // If a new user joins, receive the name from the data
+        socket.on('user-joined', name => {
+            append(`${name} joined the chat`, 'right')
+        })
 
-                document.getElementById('message').value = '';
-            }
+        // If server sends a message, receive it
+        socket.on('receive', data =>{
+            append(`${data.name}: ${data.message}`, 'left')
+        })
+
+        // If a user leaves the chat, add left chat message to div
+        socket.on('left', name =>{
+            append(`${name} left the chat`, 'right')
+        })
+
+        // If the form gets submitted, send server the message
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const message = messageInput.value;
+            append(`You: ${message}`, 'right');
+            socket.emit('chat', message);
+            messageInput.value = ''
         })
     </script>
 </body>

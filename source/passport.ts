@@ -13,10 +13,10 @@ passport.deserializeUser(function(user, done) {
 });
 
 passport.use(new Strategy({
-	clientID:'692346196735-al14js8o2luiafqbrgovm3nka806qhtc.apps.googleusercontent.com',
-	clientSecret:'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',
-	callbackURL:'http://localhost:4000/auth/callback',
-	passReqToCallback:true,
+	clientID: process.env.clientID,
+	clientSecret: process.env.clientSecret,
+	callbackURL: process.env.callbackURL,
+	passReqToCallback: true,
 },
 
 function(request:any, accessToken:any, refreshToken:any, profile:any, done:any) {

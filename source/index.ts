@@ -3,21 +3,34 @@ import sql from 'mysql';
 import cookieSession from 'cookie-session';
 import dotenv from 'dotenv';
 import passport from 'passport';
-import path from 'path';
+import { Socket } from 'socket.io';
 
 require('./passport');
 
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+app.use(express.static("public"));
 
-io.on('connection', function(socket){
+const users = {};
+
+io.on('connection', function(socket: Socket){
 	console.log('Client connected');
 	
-	socket.on('chat', function(data){
-	   //Send message to everyone
-	   io.sockets.emit('chat-message', data);
-	})
+	socket.on('new-user-joined', name => {
+        users[socket.id] = name;
+        socket.broadcast.emit('user-joined', name);
+    });
+
+	socket.on('chat', message => {
+		socket.broadcast.emit('receive', {message: message, name: users[socket.id]})
+	});
+
+	socket.on('disconnect', message => {
+
+		socket.broadcast.emit('left', users[socket.id]);
+        delete users[socket.id];
+    });
 });
  
 dotenv.config();
@@ -34,15 +47,15 @@ app.set("view engine", "ejs");
 
 // database connectivity
 const connection = sql.createConnection({
-	host: '127.0.0.1',
-    user: 'root',
-    password: '',
-    database: 'chat-app',
+	host: process.env.HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DATABASE,
 });
 
 connection.connect((err) => {
     if (err) {
-        console.log("Error", err);
+        console.log("Error ", err);
         throw err;
     }
 
