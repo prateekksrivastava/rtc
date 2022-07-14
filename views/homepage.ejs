@@ -5,39 +5,41 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Room</title>
-
+    
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-
     <link href="/app.css" rel="stylesheet">
 </head>
 <body>
-    <!-- <div style="padding: 40px;" class="online-user">
-        <aside>
-             <h2>Online Users</h2>
-
-            <ul id="onlineUser">
-            </ul>
-         </aside>
-    </div> -->
-
     <div class="container">
-        <a href="/logout" style="float: right;" type="button" class="btn">Logout</a>
-
-        <h2 style="color: aliceblue;">Real time chat application </h2>
-
-        <div class="message-container"></div> 
-
-        <form style="width: 100%; display: flex;" id="input-msg-form">
-            <input type="text" id="messageInput" name="messageInput" class="form-control" placeholder="Write a message.." style="width: 665px; display: inline-block;">
-
-            <button type="submit" id="myBtn" class="btn" >Send</button> 
-        </form>
-
+        <header>
+            <h2> &#128640; CodeChat &#128640; </h2>
+            <a href="/logout" style="float: right;" type="button" class="btn">Logout</a>
+        </header>
+        
+        <aside>
+            <div class="online-user">
+                <h1>Online Users</h1>
+                <ul>
+                    <li>Test Geeky</li>
+                    <li>John Mccarthy</li>
+                </ul>
+            </div>
+        </aside>
+        
+        <section>
+            <div class="message-container"></div> 
+        
+            <form style="width: 100%; display: flex;" id="input-msg-form">
+                <input type="text" id="messageInput" name="messageInput" class="form-control" placeholder="Write a message..." style="width: 665px; display: inline-block;">
+        
+                <button type="submit" id="myBtn" class="btn" >Send</button> 
+            </form>
+        </section>
     </div>
-
+   
     <script src="/socket.io/socket.io.js"></script>
-
+    
     <script>
         const socket = io();
         const form = document.getElementById('input-msg-form');
@@ -54,9 +56,9 @@
         }
 
         // Upon login take the name of user
-        const name = '<%= user.displayName %>'
+        const name = '<%= user.displayName %>';
         socket.emit('new-user-joined', name);
-        
+
         // If a new user joins, receive the name from the data
         socket.on('user-joined', name => {
             append(`${name} joined the chat`, 'right')
@@ -68,7 +70,7 @@
         })
 
         // If a user leaves the chat, add left chat message to div
-        socket.on('left', name =>{
+        socket.on('left', name => {
             append(`${name} left the chat`, 'right')
         })
 

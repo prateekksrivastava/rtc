@@ -1,24 +1,26 @@
 body {
     height: 100vh;
-    background-image: linear-gradient(to bottom right, #cb4154, #00AEAE);
+    background-color: black;
+    color: rgb(17, 82, 17);
+    font-family: "Times New Roman", Times, serif;
 }
 
 .container {
-    max-width: 800px; 
-    border: 2px solid white;
-    border-radius: 50px;
-    height: 60vh;
-    padding: 45px;
+    margin-top: 50px;
+}
+
+.message-container {
+    height: 55vh;
     overflow-y: auto;
 }
 
 .message  {
-    background-color: rgb(190, 158, 158);
+    background-color: rgb(6 28 3);
     color: aliceblue;
     width: fit-content;
     padding: 12px;
     margin: 14px;
-    border: 2px solid black;
+    border: 2px dashed rgb(17, 82, 17);
     border-radius: 50px;
 }
 
@@ -28,13 +30,15 @@ body {
 }
 
 .right {
+    background-color: rgb(44 82 12);
+    border: 2px dashed rgb(104, 155, 104);
     float: right;
     clear:both;
 }
 
 #messageInput {
     width: 80%;
-    border: 2px solid black;
+    border: 2px dashed black;
     border-radius: 6px;
     height: 34px;
     font-size: 22px;
@@ -43,18 +47,46 @@ body {
 .btn {
     width: 100px;
     cursor: pointer;
-    border: 1px solid aliceblue;
-    color: aliceblue;
+    border: 1px dashed rgb(17, 82, 17);
+    color: rgb(17, 82, 17);
     border-radius: 6px;
     padding: 5px;
 }
 
 .btn:hover {
-    color: aliceblue !important;
+    color: rgb(17, 82, 17);
 }
 
 .online-user {
-    border: 2px solid white;
-    max-width: 300px;
-    height: 60vh;
+    border: 1px dashed rgb(17, 82, 17);
+    padding: 20px;
+    display: inline-block;
+    min-height: 60vh;
+}
+
+
+aside {
+    display: inline-block;
+}
+
+section {
+    border: 1px dashed rgb(17, 82, 17);
+    max-width: fit-content;
+    float: right;
+    position: relative;
+    left: -6%;
+}
+
+h2 {
+    text-align: center;
+    border: 2px solid rgb(17, 82, 17);
+    background-color: rgb(17, 82, 17);
+    color: black;
+    font-weight: 900;
+}
+
+
+li {
+    list-style-type: "\1F47D";
+    padding: 5px;
 }
