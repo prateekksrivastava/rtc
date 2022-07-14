@@ -2,6 +2,15 @@
 
 This application let you to chat in real time with multiple users. 
 
+## Technologies
+
+* ExpressJS
+* Typescript
+* Javascript
+* EJS view engine
+* Socket.io
+* MySql
+
 ## Installation
 
 * Clone the git repository and run the `npm install` command in root of your project.
